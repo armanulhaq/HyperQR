@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HyperQR</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/favicon.png" type="image/png" />
+  </head>
+  <body>
+    <nav>
+      <div id="name-container">
+        <div class="name"><a href="index.html">HyperQR</a></div>
+      </div>
+      <div id="socials-container">
+        <div class="socials">
+          <a href="https://github.com/armanulhaq/">Github</a>
+        </div>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/arman-ul-haq-372a8a144/"
+            >LinkedIn</a
+          >
+        </div>
+        <div class="socials">
+          <a href="https://medium.com/@r_manulhaq">Medium</a>
+        </div>
+        <div class="socials">
+          <a href="https://twitter.com/r_manulhaq">Twitter</a>
+        </div>
+        <div class="socials">
+          <a href="https://www.instagram.com/r_manulhaq/">Instagram</a>
+        </div>
+      </div>
+    </nav>
+    <div id="input-container">
+      <input id="URL-input" type="text" name="URL" placeholder="Enter URL" />
+      <button id="button">Generate QR</button>
+    </div>
+    <div id="socials-mobile-container">
+      <div class="socials">
+        <a href="https://github.com/armanulhaq/"
+          ><img src="/assets/github.svg" alt="Github"
+        /></a>
+      </div>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/arman-ul-haq-372a8a144/"
+          ><img src="/assets/linkedin.svg" alt="LinkedIn"
+        /></a>
+      </div>
+      <div class="socials">
+        <a href="https://medium.com/@r_manulhaq"
+          ><img src="/assets/medium.svg" alt="Medium"
+        /></a>
+      </div>
+      <div class="socials">
+        <a href="https://twitter.com/r_manulhaq"
+          ><img src="/assets/twitter.svg" alt="Twitter"
+        /></a>
+      </div>
+      <div class="socials">
+        <a href="https://www.instagram.com/r_manulhaq/"
+          ><img src="/assets/instagram.svg" alt="Instagram"
+        /></a>
+      </div>
+    </div>
+    <script>
+      function generateQR() {
+        const url = document.getElementById('URL-input').value;
+        fetch('/api/generate-qr', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ URL: url }),
+        })
+          .then((response) => response.text())
+          .then((qrCodeBase64) => {
+            const link = document.createElement('a');
+            link.href = `data:image/png;base64,${qrCodeBase64}`;
+            link.download = 'qr_code.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          });
+      }
+      document.getElementById('button').addEventListener('click', generateQR);
+    </script>
+  </body>
+</html>
